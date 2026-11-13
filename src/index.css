@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --color-forest: #0b3d2e;
+  --color-forest-2: #115740;
+  --color-forest-3: #1a6b4f;
+  --color-leaf: #1e9e5a;
+  --color-leaf-deep: #15803d;
+  --color-leaf-soft: #e3f3e8;
+  --color-sun: #ffc72c;
+  --color-sun-deep: #e5a800;
+  --color-sun-soft: #fff3c4;
+  --color-ink: #10261c;
+  --color-muted: #5e7468;
+  --color-paper: #f4f8f1;
+  --color-line: #dce7dd;
+  --color-alert: #dc4b3e;
+}
+
+@layer base {
+  html, body, #root { height: 100%; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--color-paper);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.02em; }
+  :focus-visible { outline: 3px solid var(--color-sun); outline-offset: 2px; }
+}
+
+/* Signature shape: leaf corners (two opposite corners rounded harder) */
+.leaf { border-radius: 32px 10px 32px 10px; }
+.leaf-sm { border-radius: 20px 8px 20px 8px; }
+
+/* Leaflet tweaks */
+.leaflet-container { font-family: var(--font-sans); border-radius: inherit; z-index: 0; }
+.eco-pin {
+  display: grid; place-items: center; width: 30px; height: 30px; color: #fff;
+  font-weight: 700; font-size: 12px; border-radius: 50% 50% 50% 4px; transform: rotate(-45deg);
+  border: 2px solid #fff; box-shadow: 0 3px 10px rgb(0 0 0 / .3);
+}
+.eco-pin > span { transform: rotate(45deg); }
+
+@keyframes rise { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+.bin-fill { transform-origin: bottom; animation: rise 1.8s cubic-bezier(.2,.8,.2,1) .3s both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bin-fill { animation: none; }
+  * { scroll-behavior: auto !important; }
+}
