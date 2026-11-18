@@ -2,31 +2,17 @@ import { createContext, useCallback, useEffect, useMemo, useState, type ReactNod
 import { authApi } from "../service"
 import type { User } from "../types"
 
-// interface AuthValue {
-//   user: User | null
-//   loading: boolean
-//   signIn: (email: string, password: string) => Promise<void>
-//   signOut: () => void
-//   reload: () => Promise<void>
-// }
+interface AuthValue {
+  user: User | null
+  loading: boolean
+  signIn: (email: string, password: string) => Promise<void>
+  signOut: () => void
+  reload: () => Promise<void>
+}
 
 export const AuthContext = createContext<AuthValue | null>(null)
 
-export default function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState(true)
 
-  const reload = useCallback(async () => {
-    if (!localStorage.getItem("ACCESS_TOKEN")) {
-      setUser(null)
-      return
-    }
-    try {
-      setUser((await authApi.me()).data)
-    } catch {
-      setUser(null)
-    }
-  }, [])
 
   useEffect(() => {
     reload().finally(() => setLoading(false))
