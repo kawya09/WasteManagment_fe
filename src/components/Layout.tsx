@@ -1,8 +1,8 @@
 import { CalendarDays, LayoutDashboard, LogOut, Map, Megaphone, Menu, PackagePlus, Route, ScanSearch, Trophy, Truck, Users, ClipboardList, X, type LucideIcon } from "lucide-react"
-import { useState } from "react"
-import { NavLink, Outlet } from "react-router-dom"
-import { useAuth } from "../hooks/useAuth"
-import type { Role } from "../types"
+import { useState } from "react"// react vala state aka hadaganna
+import { NavLink, Outlet } from "react-router-dom"// page athata navigation karanna , layout aka athule venath pages penvanna
+import { useAuth } from "../hooks/useAuth" // login vela inna userge details laba ganna
+import type { Role } from "../types" // userge role type aka haduna gannna
 
 export const Logo = ({ light = true }: { light?: boolean }) => (
   <div className="flex items-center gap-2.5">
@@ -32,16 +32,16 @@ const NAV: NavItem[] = [
   { to: "/users", label: "Users", icon: Users, roles: ["ADMIN"] }
 ]
 
-// Highest-privilege role decides which menu a person sees
+// Highest-privilege role decides which menu a person sees// userta roles kihipayak thibunoth pradana role aka thoranava
 export const primaryRole = (roles: Role[]): Role => (roles.includes("ADMIN") ? "ADMIN" : roles.includes("DRIVER") ? "DRIVER" : "CITIZEN")
-
+// sidebar, header, navigation, page content aka akata sambanda karanavna
 export default function Layout() {
-  const { user, signOut } = useAuth()
-  const [open, setOpen] = useState(false)
-  if (!user) return null
-  const role = primaryRole(user.roles)
+  const { user, signOut } = useAuth() // give two data details of login user and logout funtion
+  const [open, setOpen] = useState(false) // mobile sidebar open or close palanaya karanava
+  if (!user) return null // user login velada balanava
+  const role = primaryRole(user.roles) // userge role akaaa adala menu items thoranava
   const items = NAV.filter((n) => n.roles.includes(role))
-
+// design left sidebar
   const sidebar = (
     <div className="flex h-full flex-col bg-forest px-4 py-5 text-white">
       <div className="mb-8 flex items-center justify-between px-2">
@@ -66,7 +66,7 @@ export default function Layout() {
       </nav>
       <div className="mt-4 rounded-2xl bg-forest-2 p-3">
         <div className="flex items-center gap-3">
-          <div className="grid size-10 place-items-center rounded-full bg-sun font-bold text-forest">{user.name.charAt(0).toUpperCase()}</div>
+          <div className="grid size-10 place-items-center rounded-full bg-sun font-bold text-forest">{user.name.charAt(0).toUpperCase()}</div> // name mul achura kapital
           <div className="min-w-0 flex-1">
             <div className="truncate text-sm font-semibold">{user.name}</div>
             <div className="truncate text-xs text-white/60">{role === "CITIZEN" ? `${user.ecoPoints} eco points` : role.toLowerCase()}</div>
@@ -79,19 +79,19 @@ export default function Layout() {
 
   return (
     <div className="min-h-full lg:grid lg:grid-cols-[17rem_1fr]">
-      <aside className="sticky top-0 hidden h-screen lg:block">{sidebar}</aside>
+      <aside className="sticky top-0 hidden h-screen lg:block">{sidebar}</aside> // desktop screen ake sidebar
 
       <header className="sticky top-0 z-30 flex items-center justify-between bg-forest px-4 py-3 text-white lg:hidden">
         <Logo />
         <button aria-label="Open menu" onClick={() => setOpen(true)}><Menu className="size-6" /></button>
       </header>
-      {open && (
+      {open && (// mobile sidebar
         <div className="fixed inset-0 z-40 lg:hidden">
           <div className="absolute inset-0 bg-black/40" onClick={() => setOpen(false)} />
           <div className="absolute inset-y-0 left-0 w-72">{sidebar}</div>
         </div>
       )}
-
+         
       <main className="min-w-0 px-4 py-6 sm:px-8 sm:py-8">
         <div className="mx-auto max-w-6xl"><Outlet /></div>
       </main>
